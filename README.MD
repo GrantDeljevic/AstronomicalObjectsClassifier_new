@@ -1,72 +1,56 @@
-# Astronomical Objects Classification with Convolutional Neural Networks and SDSS data
+# Astronomical Object Classification
 
-## Introduction
+A machine-learning pipeline for classifying astronomical objects from Sloan Digital Sky Survey (SDSS) imagery, photometric data, and spectra.
 
-This project aims to classify astronomical objects using data from the Sloan Digital Sky Survey (SDSS) and Convolutional Neural Networks (CNN). It leverages python and popular machine learning libraries to accurately classify galaxies, stars, and quasars based on their image and spectral data.
+The project explores multiple models rather than treating astronomical classification as a single task: image-based galaxy/star classification, color-index approaches for galaxy/QSO separation, and spectral classification of stars into the **O, B, A, F, G, K, M** classes.
 
-## Features
+## Approach
 
-- Utilizes SDSS DR18 data.
-- Implements a multi-model approach to classify astronomical objects
-- Uses a binary classification CNN for classifying if an object is a star or not
-- Uses a Random Forest model to classify if an object is a Galaxy or a QSO
-- Uses a 1-D Time Series Analysis CNN Classifier to classify any given star into its major class type based on the Morgan–Keenan System
-- Provides a pipeline for data preprocessing, training, and evaluation
+- **Image classification:** PyTorch CNN trained on SDSS image data
+- **Galaxy/QSO experiments:** decision-tree and SVM classifiers using photometric color indices
+- **Stellar classification:** 1D Inception-style CNN operating on normalized wavelength/flux spectra
+- **Evaluation:** train/validation/test workflows, cross-validation, classification reports, and confusion matrices
+- **Data pipeline:** scripts for SDSS retrieval, preprocessing, dataset splitting, and normalization
 
-## Project Prerequisites
+## Project Structure
 
-Before you begin, ensure you have met the following requirements:
+```text
+src/
+├── data_fetch/   # SDSS data acquisition
+├── data_prep/    # preprocessing and dataset preparation
+├── model/        # model definitions and training scripts
+└── evaluation/   # evaluation utilities
+```
 
-Python: This project uses Python version 3.11.8. Download Python
-TensorFlow: TensorFlow 2.x is required for model building and training. Ensure compatibility with Python 3.11.8.
+`notebooks/` contains exploratory work, while `models/` and `logs/` contain saved outputs from training runs.
 
-## Installation
+## Setup
 
-Clone the Project:
+Python 3.11 is recommended.
 
-- git clone git@github.com:Shagasresthaa/AstronomicalObjectsClassifier.git
-- cd AstronomicalObjectsClassifier
+```bash
+git clone https://github.com/GrantDeljevic/AstronomicalObjectsClassifier_new.git
+cd AstronomicalObjectsClassifier_new
+python -m venv .venv
+```
 
-(As per new Github security policies, you will need to either setup an SSH key and do Github SSH setup or setup a rotating temporary access key [SSH setup is rather simple and wouldn't have any need to regenerate periodically like access key] to do any code movement.
+Activate the environment, then install dependencies:
 
-Here's a quick link to the tutorial to do so: https://www.youtube.com/watch?v=X40b9x9BFGo
-
-Set Up a Virtual Environment (Optional but recommended):
-
-(localEnv is the name used for this repo but make sure to name the local environment appropriately if you are using and add to .gitignore)
-
-- python -m venv localEnv
-- source localEnv/bin/activate # On Windows use `localEnv\Scripts\activate`
-
-## Install Required Libraries:
-
-Navigate to the root of the project and install the required packages using pip with the following command:
-
+```bash
 pip install -r requirements.txt
+```
 
-# Scripts Guide
+Example training entry points:
 
-Navigate to the root of the project and run the commands as per specifications and your requirements
+```bash
+python -m src.model.train
+python -m src.model.starClassClassifier
+```
 
-python3 -m path.to.directory
+The datasets are large and are not stored directly in the repository. Some research scripts also assume the project's original local data layout and may require path configuration before running on a new machine.
 
-E.g.: To run star classifier Model at path src/model/starClassClassifier.py
-    "python3 -m src.model.starClassClassifier" or "python -m src.model.starClassClassifier"
+## Project Materials
 
-### Script Directory paths might need to be altered based on the operating system in use (currently all paths used work well in a Linux environment)
-
-### Datasets used for the project (Fair Warning the datasets are massive in size): http://astronomical-objects-classifier-ml-cs-5821-sp-2024-team-nasa.s3-website-us-east-1.amazonaws.com/#
-
-
-## Additional Tools
-
-- Jupyter Notebook: For exploratory data analysis and model prototyping.
-- Git: For version control.
-- SDSS Data Access: Familiarize yourself with any API requirements if you intend to download data programmatically.
-
-# Links
-## Final Report
-https://docs.google.com/document/d/1ZDG7YZVYs-TmtAimgGl4OibZnr7c_fC4FXyD6RzGKCQ/edit?usp=sharing 
-
-## Final Presentation
-https://docs.google.com/presentation/d/1Z-0BezzBDLCYE0P_Ll5b5kaQxfcwy_4iyZT_5lS9gHY/edit?usp=sharing
+- [Dataset archive](http://astronomical-objects-classifier-ml-cs-5821-sp-2024-team-nasa.s3-website-us-east-1.amazonaws.com/)
+- [Final report](https://docs.google.com/document/d/1ZDG7YZVYs-TmtAimgGl4OibZnr7c_fC4FXyD6RzGKCQ/edit?usp=sharing)
+- [Final presentation](https://docs.google.com/presentation/d/1Z-0BezzBDLCYE0P_Ll5b5kaQxfcwy_4iyZT_5lS9gHY/edit?usp=sharing)
